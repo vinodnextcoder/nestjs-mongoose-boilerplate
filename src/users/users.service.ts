@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
+import { userData } from 'src/interface/common';
 
 @Injectable()
 export class UserService {
@@ -17,15 +18,15 @@ export class UserService {
     return createdCat;
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<userData[]> {
     return this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<userData> {
     return this.userModel.findOne({ _id: id }).exec();
   }
 
-  async findOneUser(email: string): Promise<User> {
+  async findOneUser(email: string): Promise<userData> {
     return this.userModel.findOne({ email: email }).exec();
   }
   async delete(id: string) {

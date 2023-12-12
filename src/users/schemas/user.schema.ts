@@ -21,8 +21,6 @@ export class User {
   password: string;
   @Prop({ type : String })
   password_reset_code
-  @Prop()
-  _id: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
