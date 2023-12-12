@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Res, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
@@ -8,6 +9,8 @@ import {statusMessage} from '../constant/statusMessage'
 import { HttpExceptionFilter } from 'src/utils/http-exception.filter';
 import { responseData } from 'src/interface/common';
 
+
+@Public()
 @Controller("v1/users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
