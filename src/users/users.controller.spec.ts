@@ -1,89 +1,89 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { CatsController } from './users.controller';
-// import { CreateCatDto } from './dto/create-user.dto';
-// import { CatsService } from './users.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import jest from 'jest-mock';
+import { UserController } from './users.controller';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './users.service';
+import { beforeEach } from 'node:test';
 
-// describe('Cats Controller', () => {
-//   let controller: CatsController;
-//   let service: CatsService;
-//   const createCatDto: CreateCatDto = {
-//     name: 'Cat #1',
-//     breed: 'Breed #1',
-//     age: 4,
-//   };
+describe('Cats Controller', () => {
+  let controller: UserController;
+  let service: UserService;
+  const createUserDto = {
+    username:"1sss1",
+    first_name:"test",
+    last_name:"test",
+    password:"Sairam1@",
+    password_reset_code:"1",
+    email:"te@test.com",
+    email_code:"eee"
+}
 
-//   const mockCat = {
-//     name: 'Cat #1',
-//     breed: 'Breed #1',
-//     age: 4,
-//     _id: 'a id',
-//   };
+ 
+  // beforeEach(async () => {
+  //   const module: TestingModule = await Test.createTestingModule({
+  //     controllers: [UserController],
+  //     providers: [
+  //       {
+  //         provide: UserService,
+  //         useValue: {
+  //           findAll: jest.fn().mockResolvedValue([
+  //             {
+  //               name: 'Cat #1',
+  //               breed: 'Bread #1',
+  //               age: 4,
+  //             },
+  //             {
+  //               name: 'Cat #2',
+  //               breed: 'Breed #2',
+  //               age: 3,
+  //             },
+  //             {
+  //               name: 'Cat #3',
+  //               breed: 'Breed #3',
+  //               age: 2,
+  //             },
+  //           ]),
+  //           create: jest.fn().mockResolvedValue(CreateUserDto),
+  //         },
+  //       },
+  //     ],
+  //   }).compile();
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       controllers: [CatsController],
-//       providers: [
-//         {
-//           provide: CatsService,
-//           useValue: {
-//             findAll: jest.fn().mockResolvedValue([
-//               {
-//                 name: 'Cat #1',
-//                 breed: 'Bread #1',
-//                 age: 4,
-//               },
-//               {
-//                 name: 'Cat #2',
-//                 breed: 'Breed #2',
-//                 age: 3,
-//               },
-//               {
-//                 name: 'Cat #3',
-//                 breed: 'Breed #3',
-//                 age: 2,
-//               },
-//             ]),
-//             create: jest.fn().mockResolvedValue(createCatDto),
-//           },
-//         },
-//       ],
-//     }).compile();
+  //   controller = module.get<UserController>(UserController);
+  //   service = module.get<UserService>(UserService);
+  // });
 
-//     controller = module.get<CatsController>(CatsController);
-//     service = module.get<CatsService>(CatsService);
-//   });
+  describe('create()', () => {
+    it('should create a new cat', async () => {
+      const createSpy = jest
+        .spyOn(service, 'create')
+        .mockResolvedValueOnce(mockCat);
 
-//   describe('create()', () => {
-//     it('should create a new cat', async () => {
-//       const createSpy = jest
-//         .spyOn(service, 'create')
-//         .mockResolvedValueOnce(mockCat);
+      await controller.create(CreateUserDto,ressponse);
+      expect(createSpy).toHaveBeenCalledWith(CreateUserDto);
+    });
+  });
 
-//       await controller.create(createCatDto);
-//       expect(createSpy).toHaveBeenCalledWith(createCatDto);
-//     });
-//   });
-
-//   describe('findAll()', () => {
-//     it('should return an array of cats', async () => {
-//       expect(controller.findAll()).resolves.toEqual([
-//         {
-//           name: 'Cat #1',
-//           breed: 'Bread #1',
-//           age: 4,
-//         },
-//         {
-//           name: 'Cat #2',
-//           breed: 'Breed #2',
-//           age: 3,
-//         },
-//         {
-//           name: 'Cat #3',
-//           breed: 'Breed #3',
-//           age: 2,
-//         },
-//       ]);
-//       expect(service.findAll).toHaveBeenCalled();
-//     });
-//   });
-// });
+  describe('findAll()', () => {
+    it('should return an array of cats', async () => {
+      expect(controller.findAll()).resolves.toEqual([
+        {
+          name: 'Cat #1',
+          breed: 'Bread #1',
+          age: 4,
+        },
+        {
+          name: 'Cat #2',
+          breed: 'Breed #2',
+          age: 3,
+        },
+        {
+          name: 'Cat #3',
+          breed: 'Breed #3',
+          age: 2,
+        },
+      ]);
+      expect(service.findAll).toHaveBeenCalled();
+    });
+  });
+});
