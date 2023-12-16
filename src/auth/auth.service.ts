@@ -8,20 +8,20 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private usersService: UserService,
-    private jwtService: JwtService,
+    private jwtService: JwtService
   ) {}
 
   async signIn(email: string, pass: string) {
     const user = await this.usersService.findOneUser(email);
     const match = await bcrypt.compare(pass, user?.password);
-  
-    if(match){
+
+    if (match) {
       const payload = { email: user.email, userId: user._id };
+      const access_token = await this.jwtService.signAsync(payload);
       return {
-        access_token: await this.jwtService.signAsync(payload),
+        access_token
       };
     }
     throw new UnauthorizedException();
-   
   }
 }
