@@ -30,6 +30,29 @@ describe("User Controller", () => {
     activation_code: "e",
   };
 
+  const mockResponse = [
+    {
+      username: "1sss1",
+      first_name: "test",
+      last_name: "test",
+      password: "Sairam1@",
+      password_reset_code: "1",
+      email: "te@test.com",
+      email_code: "eee",
+      activation_code: "e",
+    },
+    {
+      username: "test",
+      first_name: "test",
+      last_name: "test",
+      password: "Sairam1@",
+      password_reset_code: "1",
+      email: "te@test.com",
+      email_code: "eee",
+      activation_code: "e",
+    }
+  ];
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
@@ -38,28 +61,7 @@ describe("User Controller", () => {
           provide: UserService,
           useValue: {
             create: jest.fn().mockResolvedValue(createUserDto),
-            findAll: jest.fn().mockResolvedValue([
-              {
-                username: "1sss1",
-                first_name: "test",
-                last_name: "test",
-                password: "Sairam1@",
-                password_reset_code: "1",
-                email: "te@test.com",
-                email_code: "eee",
-                activation_code: "e",
-              },
-              {
-                username: "test",
-                first_name: "test",
-                last_name: "test",
-                password: "Sairam1@",
-                password_reset_code: "1",
-                email: "te@test.com",
-                email_code: "eee",
-                activation_code: "e",
-              }
-            ]),
+            findAll: jest.fn().mockResolvedValue(mockResponse),
           },
         },
       ],
@@ -81,28 +83,7 @@ describe("User Controller", () => {
     });
 
     it('should return an array of users', async () => {
-      expect(controller.findAll()).resolves.toEqual([
-        {
-          username: "1sss1",
-          first_name: "test",
-          last_name: "test",
-          password: "Sairam1@",
-          password_reset_code: "1",
-          email: "te@test.com",
-          email_code: "eee",
-          activation_code: "e",
-        },
-        {
-          username: "test",
-          first_name: "test",
-          last_name: "test",
-          password: "Sairam1@",
-          password_reset_code: "1",
-          email: "te@test.com",
-          email_code: "eee",
-          activation_code: "e",
-        }
-      ]);
+      expect(controller.findAll()).resolves.toEqual(mockResponse);
       expect(service.findAll).toHaveBeenCalled();
     });
   });
