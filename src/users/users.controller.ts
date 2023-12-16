@@ -27,13 +27,4 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(":id")
-  async findOne(@Param("id") id: string): Promise<userData> {
-    return this.userService.findOne(id);
-  }
-
-  @Delete(":id")
-  async delete(@Param("id") id: string) {
-    return this.userService.delete(id);
-  }
 }
