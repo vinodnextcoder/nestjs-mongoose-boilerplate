@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response } from 'express';
 import { sendResponse } from '../utils';
 import {statusMessage} from '../constant/statusMessage'
-import { HttpExceptionFilter } from 'src/utils/http-exception.filter';
-import { responseData, userData } from 'src/interface/common';
+import { HttpExceptionFilter } from '../utils/http-exception.filter';
+import { responseData, userData } from '../interface/common';
 
 
 @Public()

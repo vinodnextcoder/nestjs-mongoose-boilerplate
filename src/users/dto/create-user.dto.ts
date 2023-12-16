@@ -11,4 +11,5 @@ export class CreateUserDto {
   password_reset_code        : String
   email                      : String
   email_code                 : String
+  activation_code: string
 }
