@@ -10,12 +10,12 @@ import { userData } from 'src/interface/common';
 export class UserService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(createUserDto.password, saltOrRounds);
     createUserDto.password  =  hashedPassword;
-    const createdCat = await this.userModel.create(createUserDto);
-    return createdCat;
+    const createduUser = await this.userModel.create(createUserDto);
+    return createduUser;
   }
 
   async findAll(): Promise<userData[]> {
@@ -30,9 +30,9 @@ export class UserService {
     return this.userModel.findOne({ email: email }).exec();
   }
   async delete(id: string) {
-    const deletedCat = await this.userModel
+    const deletedUser = await this.userModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deletedCat;
+    return deletedUser;
   }
 }
