@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import * as bcrypt from 'bcrypt';
@@ -34,5 +34,9 @@ export class UserService {
       .findByIdAndRemove({ _id: id })
       .exec();
     return deletedUser;
+  }
+
+  async updateOne(userId: Types.ObjectId | String , data: userData) {
+    await this.userModel.updateOne({_id:userId}, data);
   }
 }

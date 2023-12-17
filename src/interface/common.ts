@@ -20,6 +20,7 @@ export interface userData {
     password?: String;
     password_reset_code? :String
     _id? : Types.ObjectId | String| null
+    hashdRt? :String | null
 }
 
 
