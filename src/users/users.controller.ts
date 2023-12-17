@@ -21,10 +21,11 @@ export class UserController {
       const user = await this.userService.create(createCatDto);
       return sendResponse(res,HttpStatus.CREATED,statusMessage[HttpStatus.CREATED],true,user);
   }
-
+// get user
   @Get()
   async findAll(): Promise<userData[]> {
     return this.userService.findAll();
   }
 
 }
+
