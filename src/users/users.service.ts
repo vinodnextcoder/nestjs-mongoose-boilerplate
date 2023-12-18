@@ -3,12 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
+import  { RefresToken } from './schemas/refreshtoken.schema';
 import * as bcrypt from 'bcrypt';
 import { userData } from 'src/interface/common';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<User>,
+  @InjectModel(RefresToken.name) private readonly RefresTokenModel: Model<RefresToken>
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     const saltOrRounds = 10;
@@ -38,5 +41,10 @@ export class UserService {
 
   async updateOne(userId: Types.ObjectId | String , data: userData) {
     await this.userModel.updateOne({_id:userId}, data);
+  }
+
+  async createRefreshToken(createUserDto: CreateUserDto): Promise<Boolean> {
+    const createduUser = await this.RefresTokenModel.create(createUserDto);
+    return true;
   }
 }

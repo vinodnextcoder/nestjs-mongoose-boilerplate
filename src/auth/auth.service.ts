@@ -18,6 +18,7 @@ export class AuthService {
     if (match) {
       const payload = { email: user.email, userId: user._id };
       const access_token = await this.jwtService.signAsync(payload);
+      const tokens = await this.getTokens(user);
       return {
         access_token
       };
