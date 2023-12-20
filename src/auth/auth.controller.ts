@@ -6,12 +6,14 @@ import {
   Post,
   Res,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response,Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { GetCurrentUser, GetCurrentUserId } from '../common/decorators';
 import { HttpExceptionFilter } from '../utils/http-exception.filter';
+import { AuthGuard } from '../common/guards/index';
 
 @Controller('auth')
 export class AuthController {
@@ -32,15 +34,18 @@ export class AuthController {
     return access_token;
   }
 
-  @Public()
+  // @Public()
+  @UseGuards(AuthGuard)
   @Post('/refresh')
   @UseFilters(new HttpExceptionFilter())
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
-    @GetCurrentUser('refreshToken') refreshToken: string,
-    @GetCurrentUserId() userId: string,
+     @Res() request:Request,
+     @Res() res: Response
   ) {
-    return await this.authService.refreshTokens(userId, refreshToken);
+    // console.log(request);
+    return res.sendStatus(200)
+    // return await this.authService.refreshTokens(userId, refreshToken);
   }
 
 
