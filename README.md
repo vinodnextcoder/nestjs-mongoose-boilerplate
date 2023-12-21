@@ -17,7 +17,7 @@ NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt
 
 ## Technologies stack:
 
-- JwtService  @nestjs/jwt
+- Typescript, nestjs, JwtService  @nestjs/jwt
 - Bcrypt
 - mongoose
 
