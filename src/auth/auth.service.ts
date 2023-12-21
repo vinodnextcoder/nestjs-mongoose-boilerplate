@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/c
 import { UserService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { jwtConstants } from '../auth/constants';
 
 
 @Injectable()
@@ -17,10 +18,9 @@ export class AuthService {
 
     if (match) {
       const payload = { email: user.email, userId: user._id };
-      const access_token = await this.jwtService.signAsync(payload);
       const tokens = await this.getTokens(user);
       return {
-        access_token
+        ...tokens
       };
     }
     throw new UnauthorizedException();
@@ -48,21 +48,21 @@ export class AuthService {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: user._id,
+          sub: user.userId,
           email: user.email,
         },
         {
-          secret: 'at-secret',
+          secret: jwtConstants.secret,
           expiresIn: '24h',
         },
       ),
       this.jwtService.signAsync(
         {
-          sub: user._id,
+          sub: user.userId,
           email: user.email,
         },
         {
-          secret: 'rt-secret',
+          secret: jwtConstants.secret,
           expiresIn: '30d',
         },
       ),
