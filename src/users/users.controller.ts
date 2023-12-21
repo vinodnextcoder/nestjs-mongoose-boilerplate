@@ -8,6 +8,7 @@ import {statusMessage} from '../constant/statusMessage'
 import { HttpExceptionFilter } from '../utils/http-exception.filter';
 import { responseData, userData } from '../interface/common';
 import { AuthGuard } from '../common/guards/at.guard';
+import { ApiResponse } from '@nestjs/swagger';
 
 
 
@@ -25,6 +26,8 @@ export class UserController {
   }
   
 // get user
+@ApiResponse({ status: 200, description: 'The record has been successfully fetch.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
   @UseGuards(AuthGuard)
   @Get()
   @UseFilters(new HttpExceptionFilter())
