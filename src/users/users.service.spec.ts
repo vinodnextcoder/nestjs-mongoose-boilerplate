@@ -55,6 +55,16 @@ describe('UserService', () => {
             exec: jest.fn(),
           },
         },
+        {
+          provide: getModelToken('RefresToken'),
+          useValue: {
+            new: jest.fn().mockResolvedValue(mockUser),
+            constructor: jest.fn().mockResolvedValue(mockUser),
+            find: jest.fn(),
+            create: jest.fn(),
+            exec: jest.fn(),
+          },
+        }
       ],
     }).compile();
 
@@ -70,16 +80,16 @@ describe('UserService', () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(mockResponse),
     } as any);
-    const cats = await service.findAll();
-    expect(cats).toEqual(mockResponse);
+    const user = await service.findAll();
+    expect(user).toEqual(mockResponse);
   });
 
   it('should insert a new user', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve(mockUser as any),
     );
-    const newCat = await service.create(mockUser);
-    expect(newCat).toEqual(mockUser);
+    const newuser = await service.create(mockUser);
+    expect(newuser).toEqual(mockUser);
   });
 });
 

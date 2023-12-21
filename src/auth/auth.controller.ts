@@ -6,12 +6,14 @@ import {
   Post,
   Res,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response,Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { GetCurrentUser, GetCurrentUserId } from '../common/decorators';
 import { HttpExceptionFilter } from '../utils/http-exception.filter';
+import { AuthGuard } from '../common/guards/index';
 
 @Controller('auth')
 export class AuthController {
@@ -20,27 +22,39 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>, @Res({ passthrough: true }) res: Response) {
-    const access_token = this.authService.signIn(signInDto.email, signInDto.password);
-    res.cookie('access_cookies', access_token, {
+  async signIn(@Body() signInDto: Record<string, any>, @Res({ passthrough: true }) res: Response) {
+    const token = await this.authService.signIn(signInDto.email, signInDto.password);
+
+    res.cookie('access_token',token.access_token,  {
       httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: '/',
       sameSite: 'none',
       secure: true,
     });
-    return access_token;
+    
+    res.cookie('refresh_token', token.refresh_token,  {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      path: '/',
+      sameSite: 'none',
+      secure: true,
+    });
+
+    return token;
   }
 
-  @Public()
+  // @Public()
+  @UseGuards(AuthGuard)
   @Post('/refresh')
   @UseFilters(new HttpExceptionFilter())
-  @HttpCode(HttpStatus.OK)
   async refreshTokens(
-    @GetCurrentUser('refreshToken') refreshToken: string,
-    @GetCurrentUserId() userId: string,
+     @Res() request:Request,
+     @Res() res: Response
   ) {
-    return await this.authService.refreshTokens(userId, refreshToken);
+    // console.log(request);
+    return res.sendStatus(200)
+    // return await this.authService.refreshTokens(userId, refreshToken);
   }
 
 
