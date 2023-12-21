@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
+import { HttpException } from "@nestjs/common";
 
 export const errorHandler = (
   res = null,

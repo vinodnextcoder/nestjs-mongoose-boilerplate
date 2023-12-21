@@ -11,9 +11,10 @@ import {
 import { Response,Request } from 'express';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
-import { GetCurrentUser, GetCurrentUserId } from '../common/decorators';
 import { HttpExceptionFilter } from '../utils/http-exception.filter';
 import { AuthGuard } from '../common/guards/index';
+import { sendResponse } from '../utils/index';
+import { statusMessage } from '../constant/statusMessage';
 
 @Controller('auth')
 export class AuthController {
@@ -41,7 +42,7 @@ export class AuthController {
       secure: true,
     });
 
-    return token;
+    return sendResponse(res,HttpStatus.OK,statusMessage[HttpStatus.OK],true,null);
   }
 
   // @Public()
