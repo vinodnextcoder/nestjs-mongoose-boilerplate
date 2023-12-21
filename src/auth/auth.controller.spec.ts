@@ -5,7 +5,7 @@ import { MockResponse, createResponse } from "node-mocks-http";
 import { Response } from "express";
 import { JwtService } from "@nestjs/jwt";
 
-describe("User Controller", () => {
+describe("Auth Controller", () => {
   let controller: AuthController;
   let service: AuthService;
   const mockUserRequest = {
@@ -26,12 +26,7 @@ describe("User Controller", () => {
             }),
           },
         },
-        {
-          provide: JwtService,
-          useValue: {
-            signAsync: jest.fn(),
-          },
-        },
+        JwtService 
       ],
     }).compile();
 
@@ -39,20 +34,56 @@ describe("User Controller", () => {
     service = module.get<AuthService>(AuthService);
   });
 
-  describe("auth controller ()", () => {
-    it("should create access token", async () => {
-      let mockResponse: MockResponse<Response> = createResponse();
+  describe("signIn", () => {
+    it("should create access token and set cookies", async () => {
+      const mockResponse: MockResponse<Response> = createResponse();
       mockResponse.json = jest.fn();
       mockResponse.cookie = jest.fn();
-      const expectedResponse = {
-        access_token: "eyJhbGciOiJIUzI1NiJ9.sss.aaaaa",
-        refresh_token: "eyJhbGciOiJIUzI1NiJ9.sss.aaaaa",
-      };
-      const createSpy = jest
-        .spyOn(service, "signIn")
-        .mockResolvedValueOnce(expectedResponse);
+
       await controller.signIn(mockUserRequest, mockResponse);
-      expect(createSpy).toHaveBeenCalled();
+
+      expect(mockResponse.json).toHaveBeenCalledWith({
+        message: "SUCCESS",
+        isSuccess: true,
+        statusCode:200,
+        data: null,
+      });
+
+      expect(mockResponse.cookie).toHaveBeenCalledWith(
+        'access_token',
+        'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
+        expect.objectContaining({
+          httpOnly: true,
+          expires: expect.any(Date),
+          path: '/',
+          sameSite: 'none',
+          secure: true,
+        })
+      );
+
+      expect(mockResponse.cookie).toHaveBeenCalledWith(
+        'refresh_token',
+        'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
+        expect.objectContaining({
+          httpOnly: true,
+          expires: expect.any(Date),
+          path: '/',
+          sameSite: 'none',
+          secure: true,
+        })
+      );
+    });
+
+    it("should call the service's signIn method", async () => {
+      const mockResponse: MockResponse<Response> = createResponse();
+      mockResponse.json = jest.fn();
+      mockResponse.cookie = jest.fn();
+
+      const signInSpy = jest.spyOn(service, "signIn");
+
+      await controller.signIn(mockUserRequest, mockResponse);
+
+      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Sairam1@");
     });
   });
 });
