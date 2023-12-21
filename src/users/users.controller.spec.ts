@@ -4,6 +4,7 @@ import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { createResponse, MockResponse } from "node-mocks-http";
 import { Response } from "express";
+import { JwtService } from "@nestjs/jwt";
 
 describe("User Controller", () => {
   let controller: UserController;
@@ -62,6 +63,12 @@ describe("User Controller", () => {
           useValue: {
             create: jest.fn().mockResolvedValue(createUserDto),
             findAll: jest.fn().mockResolvedValue(mockResponse),
+          },
+        },
+        {
+          provide: JwtService,
+          useValue: {
+            create: jest.fn().mockResolvedValue(true)
           },
         },
       ],

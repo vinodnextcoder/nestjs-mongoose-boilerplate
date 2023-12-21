@@ -23,9 +23,8 @@ export class UserController {
       const user = await this.userService.create(createCatDto);
       return sendResponse(res,HttpStatus.CREATED,statusMessage[HttpStatus.CREATED],true,user);
   }
+  
 // get user
- 
-
   @UseGuards(AuthGuard)
   @Get()
   @UseFilters(new HttpExceptionFilter())
