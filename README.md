@@ -1,27 +1,63 @@
-### Mongoose sample
-
-### Installation
+# NestJS Authentication
 
 
-`npm install`
+![Prettier](https://img.shields.io/badge/Code%20style-prettier-informational?logo=prettier&logoColor=white)
+[![GPL v3 License](https://img.shields.io/badge/License-GPLv3-green.svg)](./LICENSE)
+[![HitCount](https://hits.dwyl.com/anilahir/nestjs-authentication-and-authorization.svg)](https://hits.dwyl.com/anilahir/nestjs-authentication-and-authorization)
 
-### Running
+## Description
 
-This example requires docker or a local mongodb installation.  If using a local mongodb, see `app.module.ts` for connection options, and make sure there are matching options for the mongodb installation and the source code.
+NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt 
 
-#### Docker
+## Features
 
-There is a `docker-compose.yml` file for starting Docker.
+1. Register
+2. Login
+3. Unit test
 
-`docker-compose up`
+## Technologies stack:
 
-After running the sample, you can stop the Docker container with
+- JwtService  @nestjs/jwt
+- Bcrypt
+- mongoose
 
-`docker-compose down`
+## Setup
 
-### Run the sample
+### 1. Install the required dependencies
 
-Then, run Nest as usual:
+```bash
+$ npm install
+```
 
-`npm run start`
+### 2. Rename the .env.example filename to .env and set your local variables
 
+```bash
+$ mv .env.example .env
+```
+
+### 3. Start the application
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Author
+
+👤 **Vinod**
+
+- Github: [@vinodnextcoder](https://github.com/vinodnextcoder)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## License
+
+Release under the terms of [MIT](./LICENSE)
