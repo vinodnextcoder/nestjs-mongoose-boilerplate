@@ -1,4 +1,4 @@
-# NestJS Authentication
+# NestJS Authentication JwtService
 
 
 ![Prettier](https://img.shields.io/badge/Code%20style-prettier-informational?logo=prettier&logoColor=white)
