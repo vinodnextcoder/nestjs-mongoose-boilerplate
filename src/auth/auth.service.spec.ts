@@ -72,7 +72,7 @@ describe("AuthService", () => {
       expect(spySignAsync).toHaveBeenCalled();
     });
 
-    it("should throw UnauthorizedException when passwords do not match", async () => {
+    it("should throw UnauthorizedException when passwords do not match.", async () => {
       jest.spyOn(userService, "findOneUser").mockResolvedValue({
         ...mockUser,
         password: hashedPassword, // Use hashed password
@@ -104,7 +104,7 @@ describe("AuthService", () => {
       );
     });
 
-    it("should throw ForbiddenException when user or hashed refresh token is invalid", async () => {
+    it("should throw ForbiddenException when user or hashed refresh token is invalid data must be a string or Buffer ", async () => {
       jest.spyOn(userService, "findOne").mockResolvedValue(null); // Invalid user
 
       await expect(
@@ -120,7 +120,7 @@ describe("AuthService", () => {
   });
 
   describe("hashPassword", () => {
-    it("should hash password correctly", async () => {
+    it("should hash password correctly check", async () => {
       const plainPassword = "password";
       const hashed = await authService.hashPassword(plainPassword);
 

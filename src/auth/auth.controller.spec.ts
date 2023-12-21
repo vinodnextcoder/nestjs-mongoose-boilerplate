@@ -9,7 +9,7 @@ describe("Auth Controller", () => {
   let controller: AuthController;
   let service: AuthService;
   const mockUserRequest = {
-    password: "Sairam1@",
+    password: "Password1@",
     email: "te@test.com",
   };
 
@@ -83,7 +83,7 @@ describe("Auth Controller", () => {
 
       await controller.signIn(mockUserRequest, mockResponse);
 
-      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Sairam1@");
+      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password11@");
     });
   });
 });

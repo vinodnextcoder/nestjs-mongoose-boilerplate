@@ -8,7 +8,7 @@ const mockUser = {
   username: "1sss1",
   first_name: "test",
   last_name: "test",
-  password: "Sairam1@",
+  password: "Password11@",
   password_reset_code: "1",
   email: "te@test.com",
   email_code: "eee",
@@ -19,7 +19,7 @@ const mockResponse = [
     username: "1sss1",
     first_name: "test",
     last_name: "test",
-    password: "Sairam1@",
+    password: "Password11@",
     password_reset_code: "1",
     email: "te@test.com",
     email_code: "eee",
@@ -29,7 +29,7 @@ const mockResponse = [
     username: "test",
     first_name: "test",
     last_name: "test",
-    password: "Sairam1@",
+    password: "Password11@",
     password_reset_code: "1",
     email: "te@test.com",
     email_code: "eee",
@@ -76,7 +76,7 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
-  it("should return all users", async () => {
+  it("should return all users list", async () => {
     jest.spyOn(model, "find").mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(mockResponse),
     } as any);
@@ -84,7 +84,7 @@ describe("UserService", () => {
     expect(user).toEqual(mockResponse);
   });
 
-  it("should insert a new user", async () => {
+  it("should insert a new user into database", async () => {
     jest
       .spyOn(model, "create")
       .mockImplementationOnce(() => Promise.resolve(mockUser as any));
