@@ -1,4 +1,4 @@
-# NestJS Authentication
+# NestJS Authentication JwtService
 
 
 ![Prettier](https://img.shields.io/badge/Code%20style-prettier-informational?logo=prettier&logoColor=white)
@@ -17,7 +17,7 @@ NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt
 
 ## Technologies stack:
 
-- JwtService  @nestjs/jwt
+- Typescript, nestjs, JwtService  @nestjs/jwt
 - Bcrypt
 - mongoose
 
