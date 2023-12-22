@@ -48,6 +48,14 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+### Swagger documentation for nestjs-mongoose-jwt
+
+### Running
+
+``
+Once the application is running you can visit [http://localhost:3000/api](http://localhost:3000/api) to see the Swagger interface.
+```
+
 ## Author
 
 👤 **Vinod**
