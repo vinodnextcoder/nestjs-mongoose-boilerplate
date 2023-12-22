@@ -174,3 +174,32 @@ export const loginSuccessResponse = {
     },
   },
 };
+
+export const loginErrorResponse = {
+  status: 401,
+  description: "Success! Returns the user data.",
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        properties: {
+          statusCode: { type: "number", example: 400 },
+          isSuccess: { type: "boolean", example: false },
+          message: { type: "string", example: "Unauthorized" },
+          data: { type: "object", example: null },
+          timestamp: { type: "date", example: "2023-12-22T05:17:16.499Z" },
+          path: { type: "string", example: "/login" },
+        },
+      },
+      example: {
+        statusCode: 401,
+        message: "Unauthorized",
+        error: "Unauthorized",
+        timestamp: "2023-12-22T06:00:04.100Z",
+        path: "/auth/login",
+        isSuccess: false,
+        data: null,
+      },
+    },
+  },
+};
