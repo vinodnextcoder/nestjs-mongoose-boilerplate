@@ -8,6 +8,7 @@ import {
   UseFilters,
   UseGuards,
 } from "@nestjs/common";
+import { SignInDto } from './dto/signIn.dto'
 import { Response, Request } from "express";
 import { AuthService } from "./auth.service";
 import { Public } from "./decorators/public.decorator";
@@ -19,8 +20,9 @@ import {
   loginErrorResponse,
 } from "../utils/index";
 import { statusMessage } from "../constant/statusMessage";
-import { ApiResponse } from "@nestjs/swagger";
+import { ApiResponse, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("auth")
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -30,7 +32,7 @@ export class AuthController {
   @Public()
   @UseFilters(new HttpExceptionFilter())
   @Post("login")
-  async signIn(@Body() signInDto: Record<string, any>, @Res() res: Response) {
+  async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
     const token = await this.authService.signIn(
       signInDto.email,
       signInDto.password
