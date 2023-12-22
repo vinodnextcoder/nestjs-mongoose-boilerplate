@@ -90,7 +90,9 @@ describe("User Controller", () => {
     });
 
     it('should return an array of users', async () => {
-      expect(controller.findAll()).resolves.toEqual(mockResponse);
+      let response: MockResponse<Response> = createResponse();
+      response.json = jest.fn();
+      expect(controller.findAll(response)).resolves.toEqual(mockResponse);
       expect(service.findAll).toHaveBeenCalled();
     });
   });

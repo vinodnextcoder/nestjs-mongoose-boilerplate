@@ -26,7 +26,7 @@ export const sendResponse = (
 };
 
 export const userSuccessResponse = {
-  status: 200,
+  status: 201,
   description: "Success! Returns the user data.",
   content: {
     "application/json": {
@@ -62,7 +62,7 @@ export const userSuccessResponse = {
 
 export const userErrorResponse = {
   status: 400,
-  description: "Error : invalid inpur data.",
+  description: "Error : Invalid input data.",
   content: {
     "application/json": {
       schema: {
@@ -91,6 +91,85 @@ export const userErrorResponse = {
           "isSuccess": false,
           "data": null
       
+      },
+    },
+  },
+};
+
+
+export const userListSuccessResponse = {
+  status: 200,
+  description: "Success! Returns the user data.",
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        properties: {
+          statusCode: { type: "number", example: 201 },
+          isSuccess: { type: "boolean", example: true },
+          message: { type: "string", example: "SUCCESS" },
+          data: {
+            type: "array",
+            example: [
+              {
+                createdAt: "2023-12-22T05:44:35.286Z",
+                updatedAt: "2023-12-22T05:44:35.286Z",
+                _id: "657845cf5dc54b24021ecf04",
+                username: "11",
+                first_name: "test",
+                last_name: "test",
+                email: "te@test.com",
+                email_code: "eee",
+                password: "rBbjMr00UhkxZAX3C/fR/tt3nwjua",
+                password_reset_code: "1",
+              },
+            ],
+          },
+        },
+      },
+      example: {
+        statusCode: 200,
+        isSuccess: true,
+        message: "SUCCESS",
+        data: [
+          {
+            createdAt: "2023-12-22T05:44:35.286Z",
+            updatedAt: "2023-12-22T05:44:35.286Z",
+            _id: "657845cf5dc54b24021ecf04",
+            username: "11",
+            first_name: "test",
+            last_name: "test",
+            email: "te@test.com",
+            email_code: "eee",
+            password: "7rBbjMr00UhkxZAX3C/fR/tt3nwjua",
+            password_reset_code: "1",
+          }
+        ]
+      }
+    }
+  }
+};
+
+export const loginSuccessResponse = {
+  status: 200,
+  description: "Success! Returns the user data.",
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        properties: {
+          statusCode: { type: "number", example: 201 },
+          isSuccess: { type: "boolean", example: true },
+          message: { type: "string", example: "SUCCESS" },
+          data: { type: "object", example: null },
+        },
+      },
+      example: {
+        statusCode: 200,
+        isSuccess: true,
+        message: "SUCCESS",
+        data:null
+    
       },
     },
   },

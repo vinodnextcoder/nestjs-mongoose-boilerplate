@@ -23,8 +23,9 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async signIn(@Body() signInDto: Record<string, any>, @Res({ passthrough: true }) res: Response) {
+  async signIn(@Body() signInDto: Record<string, any>, @Res() res: Response) {
     const token = await this.authService.signIn(signInDto.email, signInDto.password);
+    console.log(token)
 
     res.cookie('access_token',token.access_token,  {
       httpOnly: true,
@@ -41,7 +42,6 @@ export class AuthController {
       sameSite: 'none',
       secure: true,
     });
-
     return sendResponse(res,HttpStatus.OK,statusMessage[HttpStatus.OK],true,null);
   }
 
