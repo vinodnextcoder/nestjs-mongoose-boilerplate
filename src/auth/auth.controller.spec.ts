@@ -83,7 +83,7 @@ describe("Auth Controller", () => {
 
       await controller.signIn(mockUserRequest, mockResponse);
 
-      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password11@");
+      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password1@");
     });
   });
 });
