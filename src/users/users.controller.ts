@@ -3,7 +3,7 @@ import { Public } from '../auth/decorators/public.decorator';
 import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Response } from 'express';
-import { sendResponse } from '../utils';
+import { sendResponse, userErrorResponse, userSuccessResponse } from '../utils';
 import {statusMessage} from '../constant/statusMessage'
 import { HttpExceptionFilter } from '../utils/http-exception.filter';
 import { responseData, userData } from '../interface/common';
@@ -20,40 +20,8 @@ export class UserController {
     summary: 'Create user',
     description: 'User signup app',
   })
-  @ApiResponse({ 
-    status: 200, 
-    description: 'Success! Returns the data.',
-    content: {
-      'application/json': {
-        schema: {
-          type: 'object',
-          properties: {
-            statusCode: { type: 'number', example: 201 },
-            isSuccess: { type: 'boolean', example: true},
-            message: { type: 'string', example: 'Record Created' },
-            data: { type: 'object', example: 'Record Created' }
-          },
-        },
-        example: {
-          "statusCode": 201,
-          "isSuccess": true,
-          "message": "Record Created",
-          "data": {
-              "username": "test username",
-              "first_name": "pradip",
-              "last_name": "patil",
-              "email": "pradip@test.com",
-              "email_code": "DAQJ1",
-              "password": "4xeuIuIK3XGXHX3xtMBAM4uYeWlWsOg8RC",
-              "password_reset_code": "122222",
-              "createdAt": "2023-12-22T04:45:45.710Z",
-              "updatedAt": "2023-12-22T04:45:45.710Z",
-              "_id": "6585147f97b06"
-          }
-        },
-      },
-    },
-  })
+  @ApiResponse(userSuccessResponse)
+  @ApiResponse(userErrorResponse)
   @Public()
   @Post()
   @UseFilters(new HttpExceptionFilter())
