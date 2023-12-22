@@ -8,7 +8,6 @@ import {
 
 export class CreateUserDto {
   @ApiProperty({ example: 'testname', description: 'username of the user' })
-  @IsNumberString()
   @IsNotEmpty()
   username: String;
   @ApiProperty({ example: 'Pradip', description: 'first of the user' })
