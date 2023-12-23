@@ -20,7 +20,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
   app.use(cookieParser());
-  await app.listen(3000);
+  await app.listen(Number(process.env.PORT) || 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
