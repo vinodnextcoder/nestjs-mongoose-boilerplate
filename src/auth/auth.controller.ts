@@ -1,23 +1,18 @@
 import {
   Body,
   Controller,
-  HttpCode,
   HttpStatus,
   Post,
   Res,
   UseFilters,
-  UseGuards,
-  Headers,
-  Req,
-  UnauthorizedException
+  UseGuards
 } from "@nestjs/common";
-import { SignInDto } from './dto/signIn.dto'
+import { SignInDto } from "./dto/signIn.dto";
 import { Response, Request } from "express";
 import { AuthService } from "./auth.service";
 import { Public } from "./decorators/public.decorator";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
-import { AuthGuard } from "../common/guards/index";
-import { JwtService } from '@nestjs/jwt';
+import { RtGuard } from "../common/guards/rt.guard";
 import {
   sendResponse,
   loginSuccessResponse,
@@ -25,16 +20,13 @@ import {
 } from "../utils/index";
 import { statusMessage } from "../constant/statusMessage";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { jwtConstants } from "./constants";
+import { GetCurrentUser, GetCurrentUserId } from "../common/decorators";
 
 @ApiTags("auth")
 @Controller("auth")
 export class AuthController {
   [x: string]: any;
-  constructor(
-    private authService: AuthService,
-    private jwtService: JwtService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
@@ -73,35 +65,16 @@ export class AuthController {
     );
   }
 
-  // todo not implented yet
-  // @Public()
-  // @UseGuards(AuthGuard)
   @Public()
+  @UseGuards(RtGuard)
   @Post("/refresh")
   @UseFilters(new HttpExceptionFilter())
-  async refreshTokens(@Req() request: Request, @Res() res: Response) {
-    const tokens = null;
-    let refreshToken = request?.cookies?.refresh_token;
-    if (!refreshToken) {
-      return res.sendStatus(403);
-    }
-
-    try {
-      const payload = await this.jwtService.verifyAsync(refreshToken, {
-        secret: jwtConstants.secret,
-      });
-
-      if (payload) {
-        delete payload.iat;
-        delete payload.exp;
-      }
-
-      const tokens = await this.getTokens(payload);
-      console.log(tokens);
-    } catch (error) {
-      console.log(error);
-      throw new UnauthorizedException();
-    }
+  async refreshTokens(
+    @GetCurrentUser("user") payload: any,
+    @GetCurrentUser("user") userId: string,
+    @Res() res: Response
+  ) {
+    const tokens = await this.authService.getTokens(payload);
     res.cookie("access_token", tokens.access_token, {
       httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
@@ -117,40 +90,13 @@ export class AuthController {
       sameSite: "none",
       secure: false,
     });
-    return res.sendStatus(200);
-  }
 
-  async getTokens(user: any) {
-    console.log(user);
-    const [at, rt] = await Promise.all([
-      this.jwtService.signAsync(
-        {
-          sub: user.userId,
-          email: user.email,
-          username: user.username,
-        },
-        {
-          secret: jwtConstants.secret,
-          expiresIn: "24h",
-        }
-      ),
-      this.jwtService.signAsync(
-        {
-          sub: user.userId,
-          email: user.email,
-          username: user.username,
-        },
-        {
-          secret: jwtConstants.secret,
-          expiresIn: "30d",
-        }
-      ),
-    ]);
-
-    return {
-      access_token: at,
-      refresh_token: rt,
-    };
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      statusMessage[HttpStatus.OK],
+      true,
+      null
+    );
   }
 }
-

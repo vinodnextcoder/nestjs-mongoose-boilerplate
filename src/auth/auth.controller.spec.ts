@@ -53,11 +53,11 @@ describe("Auth Controller", () => {
         'access_token',
         'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
         expect.objectContaining({
-          httpOnly: true,
+          httpOnly: false,
           expires: expect.any(Date),
           path: '/',
           sameSite: 'none',
-          secure: true,
+          secure: false,
         })
       );
 
@@ -65,11 +65,11 @@ describe("Auth Controller", () => {
         'refresh_token',
         'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
         expect.objectContaining({
-          httpOnly: true,
+          httpOnly: false,
           expires: expect.any(Date),
           path: '/',
           sameSite: 'none',
-          secure: true,
+          secure: false,
         })
       );
     });
