@@ -7,6 +7,8 @@ import {
   Res,
   UseFilters,
   UseGuards,
+  Headers,
+  Req
 } from "@nestjs/common";
 import { SignInDto } from './dto/signIn.dto'
 import { Response, Request } from "express";
@@ -40,20 +42,22 @@ export class AuthController {
     console.log(token);
 
     res.cookie("access_token", token.access_token, {
-      httpOnly: true,
+      httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
       sameSite: "none",
-      secure: true,
+      secure: false,
     });
 
     res.cookie("refresh_token", token.refresh_token, {
-      httpOnly: true,
+      httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
       sameSite: "none",
-      secure: true,
+      secure: false,
     });
+
+
     return sendResponse(
       res,
       HttpStatus.OK,
@@ -66,11 +70,12 @@ export class AuthController {
 
   // todo not implented yet
   // @Public()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
+  @Public()
   @Post("/refresh")
   @UseFilters(new HttpExceptionFilter())
-  async refreshTokens(@Res() request: Request, @Res() res: Response) {
-    // console.log(request);
+  async refreshTokens(@Req() request: Request, @Res() res: Response) {
+    console.log('#############refreshToken',request.cookies.refresh_token)
     return res.sendStatus(200);
     // return await this.authService.refreshTokens(userId, refreshToken);
   }
