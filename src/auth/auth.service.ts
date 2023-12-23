@@ -17,8 +17,8 @@ export class AuthService {
     const match = await bcrypt.compare(pass, user?.password);
 
     if (match) {
-      const payload = { email: user.email, userId: user._id };
-      const tokens = await this.getTokens(user);
+      const payload = { email: user.email, userId: user._id.toString(),username: user.username};
+      const tokens = await this.getTokens(payload);
       return {
         ...tokens
       };
@@ -45,11 +45,13 @@ export class AuthService {
   }
   
   async getTokens(user: any) {
+    console.log(user)
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: user.userId,
           email: user.email,
+          username:user.username
         },
         {
           secret: jwtConstants.secret,
@@ -60,6 +62,7 @@ export class AuthService {
         {
           sub: user.userId,
           email: user.email,
+          username:user.username
         },
         {
           secret: jwtConstants.secret,

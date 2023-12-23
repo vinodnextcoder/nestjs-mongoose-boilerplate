@@ -1,21 +1,18 @@
 import {
   Body,
   Controller,
-  HttpCode,
   HttpStatus,
   Post,
   Res,
   UseFilters,
-  UseGuards,
-  Headers,
-  Req
+  UseGuards
 } from "@nestjs/common";
-import { SignInDto } from './dto/signIn.dto'
+import { SignInDto } from "./dto/signIn.dto";
 import { Response, Request } from "express";
 import { AuthService } from "./auth.service";
 import { Public } from "./decorators/public.decorator";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
-import { AuthGuard } from "../common/guards/index";
+import { RtGuard } from "../common/guards/rt.guard";
 import {
   sendResponse,
   loginSuccessResponse,
@@ -23,10 +20,12 @@ import {
 } from "../utils/index";
 import { statusMessage } from "../constant/statusMessage";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import { GetCurrentUser, GetCurrentUserId } from "../common/decorators";
 
 @ApiTags("auth")
 @Controller("auth")
 export class AuthController {
+  [x: string]: any;
   constructor(private authService: AuthService) {}
 
   @ApiResponse(loginSuccessResponse)
@@ -57,7 +56,6 @@ export class AuthController {
       secure: false,
     });
 
-
     return sendResponse(
       res,
       HttpStatus.OK,
@@ -67,16 +65,38 @@ export class AuthController {
     );
   }
 
-
-  // todo not implented yet
-  // @Public()
-  // @UseGuards(AuthGuard)
   @Public()
+  @UseGuards(RtGuard)
   @Post("/refresh")
   @UseFilters(new HttpExceptionFilter())
-  async refreshTokens(@Req() request: Request, @Res() res: Response) {
-    console.log('#############refreshToken',request.cookies.refresh_token)
-    return res.sendStatus(200);
-    // return await this.authService.refreshTokens(userId, refreshToken);
+  async refreshTokens(
+    @GetCurrentUser("user") payload: any,
+    @GetCurrentUser("user") userId: string,
+    @Res() res: Response
+  ) {
+    const tokens = await this.authService.getTokens(payload);
+    res.cookie("access_token", tokens.access_token, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      path: "/",
+      sameSite: "none",
+      secure: false,
+    });
+
+    res.cookie("refresh_token", tokens.refresh_token, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      path: "/",
+      sameSite: "none",
+      secure: false,
+    });
+
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      statusMessage[HttpStatus.OK],
+      true,
+      null
+    );
   }
 }
