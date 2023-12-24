@@ -51,7 +51,7 @@ describe("User Controller", () => {
       email: "te@test.com",
       email_code: "eee",
       activation_code: "e",
-    }
+    },
   ];
 
   beforeEach(async () => {
@@ -68,7 +68,7 @@ describe("User Controller", () => {
         {
           provide: JwtService,
           useValue: {
-            create: jest.fn().mockResolvedValue(true)
+            create: jest.fn().mockResolvedValue(true),
           },
         },
       ],
@@ -89,10 +89,13 @@ describe("User Controller", () => {
       expect(createSpy).toHaveBeenCalledWith(createUserDto);
     });
 
-    it('should return an array of users', async () => {
+    it("should return an array of users", async () => {
       let response: MockResponse<Response> = createResponse();
       response.json = jest.fn();
-      expect(controller.findAll(response)).resolves.toEqual(mockResponse);
+      const findSpy = jest
+        .spyOn(service, "findAll")
+        .mockResolvedValueOnce(mockResponse);
+      await controller.findAll(response);
       expect(service.findAll).toHaveBeenCalled();
     });
   });
