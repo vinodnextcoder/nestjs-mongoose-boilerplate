@@ -9,6 +9,10 @@
 
 NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt 
 
+# This implementation requires two things;
+Sending the access token as a ‘Set-Cookie’ in the response headers after successful login.
+Extracting the token from the cookies in the request headers instead of authorization.
+
 ## Features
 
 1. Register
