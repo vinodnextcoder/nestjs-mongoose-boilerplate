@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  HttpCode,
   HttpStatus,
   Post,
   Res,
@@ -31,6 +32,7 @@ export class AuthController {
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
   @Public()
+  @HttpCode(200)
   @UseFilters(new HttpExceptionFilter())
   @Post("login")
   async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
@@ -38,7 +40,7 @@ export class AuthController {
       signInDto.email,
       signInDto.password
     );
-    console.log(token);
+  
 
     res.cookie("access_token", token.access_token, {
       httpOnly: false,
@@ -68,6 +70,7 @@ export class AuthController {
   @Public()
   @UseGuards(RtGuard)
   @Post("/refresh")
+  @HttpCode(200)
   @UseFilters(new HttpExceptionFilter())
   async refreshTokens(
     @GetCurrentUser("user") payload: any,
