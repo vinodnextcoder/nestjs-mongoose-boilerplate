@@ -15,7 +15,12 @@ async function bootstrap() {
     .addServer("https://staging.yourapi.com/", "Staging")
     .addServer("https://production.yourapi.com/", "Production")
     .addTag("Jwt authentication")
-    .addBearerAuth()
+    .addCookieAuth('auth-cookie', {
+      type: 'http',
+      in: 'Header',
+      scheme: 'Bearer'
+    },
+    'refresh_token')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
