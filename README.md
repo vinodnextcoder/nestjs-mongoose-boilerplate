@@ -8,6 +8,7 @@ This repository contains a NestJS application showcasing JWT (JSON Web Token) au
 - **JWT Authentication**: Implementation of JWT-based authentication using NestJS.
 - **Cookie-based Tokens**: Store JWT tokens in HTTP-only cookies for secure communication.
 - **Authorization Middleware**: Middleware for protecting routes and verifying user authorization.
+- **Winston Logger** Winston is designed to be a simple and universal logging library with support for multiple transports.
 
 ## Prerequisites
 
