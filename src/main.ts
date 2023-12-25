@@ -15,10 +15,9 @@ async function bootstrap() {
     .addServer("https://staging.yourapi.com/", "Staging")
     .addServer("https://production.yourapi.com/", "Production")
     .addTag("Jwt authentication")
-    .addCookieAuth('auth-cookie', {
-      type: 'http',
-      in: 'Header',
-      scheme: 'Bearer'
+    .addCookieAuth('refresh_token', {
+      type: 'apiKey',
+      in: 'cookie'
     },
     'refresh_token')
     .build();
