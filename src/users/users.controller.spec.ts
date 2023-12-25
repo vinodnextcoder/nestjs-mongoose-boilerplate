@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./users.controller";
 import { UserService } from "./users.service";
+import { LoggerService } from '../common/service/logger.service';
 import { CreateUserDto } from "./dto/create-user.dto";
 import { createResponse, MockResponse } from "node-mocks-http";
 import { Response } from "express";
@@ -71,6 +72,13 @@ describe("User Controller", () => {
             create: jest.fn().mockResolvedValue(true),
           },
         },
+        {
+          provide: LoggerService,
+          useValue: {
+            log: jest.fn(),
+          },
+        },
+        
       ],
     }).compile();
 

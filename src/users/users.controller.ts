@@ -14,6 +14,7 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import { Public } from "../auth/decorators/public.decorator";
+import { LoggerService } from '../common/service/logger.service';
 import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Response } from "express";
@@ -32,7 +33,8 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 @ApiTags("users")
 @Controller("v1/users")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService,
+    private readonly logger: LoggerService) {}
 
   @ApiOperation({
     summary: "Create user",
@@ -48,6 +50,7 @@ export class UserController {
     @Body() createCatDto: CreateUserDto,
     @Res() res: Response
   ): Promise<responseData> {
+    this.logger.log('User creation api called');
     const user = await this.userService.create(createCatDto);
     return sendResponse(
       res,
@@ -69,6 +72,7 @@ export class UserController {
   @Get()
   @UseFilters(new HttpExceptionFilter())
   async findAll(@Res() res: Response): Promise<userData[]> {
+    this.logger.log('User list api called');
     const userList = await this.userService.findAll();
     return sendResponse(
       res,

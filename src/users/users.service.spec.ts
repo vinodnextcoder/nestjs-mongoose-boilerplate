@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { Model } from "mongoose";
 import { UserService } from "./users.service";
 import { User } from "./schemas/user.schema";
+import { LoggerService } from "src/common/service/logger.service";
 
 const mockUser = {
   username: "1sss1",
@@ -63,6 +64,12 @@ describe("UserService", () => {
             find: jest.fn(),
             create: jest.fn(),
             exec: jest.fn(),
+          },
+        },
+        {
+          provide: LoggerService,
+          useValue: {
+            log: jest.fn(),
           },
         },
       ],
