@@ -11,26 +11,26 @@ export class LoggerService {
       level: 'info',
       format: winston.format.combine(
         winston.format.timestamp(),
-        winston.format.printf(({ level, message, timestamp }) => {
-          return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+        winston.format.printf(({ level, message, timestamp, correlationId, filename, method }) => {
+            return JSON.stringify(`{timestamp:${timestamp},level: ${level.toUpperCase()}, CorrelationID: ${correlationId}, Filename: ${filename}, Method: ${method}: ${message}}`);
         }),
       ),
       transports: [
         new winston.transports.Console(),
         new DailyRotateFile({
-          dirname: 'logs', // Specify the directory for log files
-          filename: 'application-%DATE%.log', // Set the log file name pattern
-          datePattern: 'YYYY-MM-DD', // Define the date pattern for rotation
+          dirname: 'logs',
+          filename: 'application-%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
           zippedArchive: true,
-          maxSize: '20m', // Maximum size of a log file before rotation
-          maxFiles: '14d', // Maximum days to keep log files
+          maxSize: '20m',
+          maxFiles: '14d',
         }),
       ],
     });
   }
 
-  log(message: string) {
-    this.logger.info(message);
+  log(message: string, correlationId?: string, filename?: string, method?: string) {
+    this.logger.info(message, { correlationId, filename, method });
   }
 
   // Add other log level methods as needed (e.g., error, warn, debug)

@@ -29,6 +29,8 @@ import { HttpExceptionFilter } from "../utils/http-exception.filter";
 import { responseData, userData } from "../interface/common";
 import { AuthGuard } from "../common/guards/at.guard";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { v4 as uuid } from 'uuid';
+
 
 @ApiTags("users")
 @Controller("v1/users")
@@ -50,7 +52,8 @@ export class UserController {
     @Body() createCatDto: CreateUserDto,
     @Res() res: Response
   ): Promise<responseData> {
-    this.logger.log('User creation api called');
+    const id: string = uuid();
+    this.logger.log('User creation api called',id,'users.controler.ts','create');
     const user = await this.userService.create(createCatDto);
     return sendResponse(
       res,
@@ -72,7 +75,8 @@ export class UserController {
   @Get()
   @UseFilters(new HttpExceptionFilter())
   async findAll(@Res() res: Response): Promise<userData[]> {
-    this.logger.log('User list api called');
+    const id: string = uuid();
+    this.logger.log('User list api called',id,'users.controler.ts','findAll');
     const userList = await this.userService.findAll();
     return sendResponse(
       res,
