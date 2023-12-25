@@ -1,47 +1,48 @@
-# NestJS Authentication JwtService
 
+# NestJS JWT Service with Cookie and Authorization
 
-![Prettier](https://img.shields.io/badge/Code%20style-prettier-informational?logo=prettier&logoColor=white)
-[![GPL v3 License](https://img.shields.io/badge/License-GPLv3-green.svg)](./LICENSE)
-[![HitCount](https://hits.dwyl.com/anilahir/nestjs-authentication-and-authorization.svg)](https://hits.dwyl.com/anilahir/nestjs-authentication-and-authorization)
-
-## Description
-
-NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt 
-
-# This implementation requires two things;
-Sending the access token as a ‘Set-Cookie’ in the response headers after successful login.
-- we sending token in request headers authorization.
-- for refresh token Extracting the token from the cookies in the request headers instead of authorization.
+This repository contains a NestJS application showcasing JWT (JSON Web Token) authentication using cookies and authorization implementation.
 
 ## Features
 
-1. Register
-2. Login
-3. Unit test
+- **JWT Authentication**: Implementation of JWT-based authentication using NestJS.
+- **Cookie-based Tokens**: Store JWT tokens in HTTP-only cookies for secure communication.
+- **Authorization Middleware**: Middleware for protecting routes and verifying user authorization.
 
-## Technologies stack:
+## Prerequisites
 
-- Typescript, nestjs, JwtService  @nestjs/jwt
-- Bcrypt
-- mongoose
+Ensure you have the following installed before running the application:
 
-## Setup
+- Node.js (>= 12.x)
+- npm 
+- MongoDB (or any preferred database)
 
-### 1. Install the required dependencies
+## Installation
 
-```bash
-$ npm install
-```
+1. **Clone the repository:**
 
-### 2. Rename the .env.example filename to .env and set your local variables
+   ```bash
+   https://github.com/vinodnextcoder/nestjs-mongoose-jwt.git
+   ```
 
-```bash
-$ mv .env.example .env
-```
+2. **Install dependencies:**
 
-### 3. Start the application
+   ```bash
+   cd nestjs-mongoose-jwt
+   npm install
+   ```
 
+3. **Set up environment variables:**
+
+   Create a `.env` file in the root directory and provide necessary environment variables (check `.env.example` for reference).
+
+## Configuration
+
+- Update the `JWT_KEY` and other necessary environment variables in the `.env` file.
+
+## Usage
+
+1. **Start the application:**
 ```bash
 # development
 $ npm run start
@@ -61,16 +62,32 @@ $ npm run start:prod
 Once the application is running you can visit [http://localhost:3000/api](http://localhost:3000/api) to see the Swagger interface.
 ```
 
+2. **Access the API:**
+
+   Use Postman, curl, or any REST client to interact with the API endpoints:
+
+   - Register a user: `POST /v1/users`
+   - Login: `POST /auth/login`
+   - Access protected routes: Use JWT token in the `Authorization` header or verify the cookie.
+
+## Endpoints
+
+- `POST /v1/users`: Register a new user.
+- `POST /auth/login`: Log in and receive a JWT token.
+- `GET /v1/users`: Access a protected route (requires authentication).
+
+
 ## Author
 
 👤 **Vinod**
 
 - Github: [@vinodnextcoder](https://github.com/vinodnextcoder)
 
-## Show your support
 
-Give a ⭐️ if this project helped you!
+## Contributing
+
+Contributions are welcome! If you find any issues or want to enhance the application, feel free to submit a pull request.
 
 ## License
 
-Release under the terms of [MIT](./LICENSE)
+This project is licensed under the [MIT License](LICENSE).
