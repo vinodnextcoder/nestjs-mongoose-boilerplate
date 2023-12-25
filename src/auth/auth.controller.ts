@@ -21,7 +21,7 @@ import {
   refreshErrorResponse,
 } from "../utils/index";
 import { statusMessage } from "../constant/statusMessage";
-import { ApiCookieAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiCookieAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { GetCurrentUser, GetCurrentUserId } from "../common/decorators";
 
 @ApiTags("auth")
@@ -71,6 +71,7 @@ export class AuthController {
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(refreshErrorResponse)
   @ApiCookieAuth('refresh_token')
+  @ApiBearerAuth('JWT-auth')
   @Public()
   @UseGuards(RtGuard)
   @Post("/refresh")

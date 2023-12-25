@@ -11,13 +11,9 @@ import { jwtConstants } from '../../auth/constants';
 
 @Injectable()
 export class RtGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private reflector: Reflector,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {  
-
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const refreshToken = this.extractTokenFromCookie(request);
     if (!refreshToken) {
@@ -32,7 +28,7 @@ export class RtGuard implements CanActivate {
         delete payload.iat;
         delete payload.exp;
       }
-      request['user'] = payload;
+      request["user"] = payload;
     } catch (error) {
       console.log(error);
       throw new UnauthorizedException();
@@ -41,7 +37,15 @@ export class RtGuard implements CanActivate {
   }
 
   private extractTokenFromCookie(request: Request): string | undefined {
-    const token = request?.cookies?.refresh_token ?? null;
+    let isCookieAuth = `${process.env.IS_COOKIE_AUTH}`;
+    let token = undefined;
+    if (isCookieAuth === "true") {
+      token = request?.cookies?.refresh_token ?? null;
+    } else {
+      const [type, tokenValue] =
+      request.headers.authorization?.split(" ") ?? [];
+      token = type === "Bearer" ? tokenValue : undefined;
+    }
     return token ? token : undefined;
   }
 }
