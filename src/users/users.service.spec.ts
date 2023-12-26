@@ -3,7 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { Model } from "mongoose";
 import { UserService } from "./users.service";
 import { User } from "./schemas/user.schema";
-import { LoggerService } from "src/common/service/logger.service";
+import { LoggerService } from "../common/service/logger.service";
 
 const mockUser = {
   username: "1sss1",
