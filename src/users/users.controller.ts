@@ -53,7 +53,7 @@ export class UserController {
     @Res() res: Response
   ): Promise<responseData> {
     const id: string = uuid();
-    this.logger.log('User creation api called',id,'users.controler.ts','create');
+    this.logger.log('User create api called',id,'users.controler.ts','POST','/users','create');
     const user = await this.userService.create(createCatDto);
     return sendResponse(
       res,
@@ -76,7 +76,7 @@ export class UserController {
   @UseFilters(new HttpExceptionFilter())
   async findAll(@Res() res: Response): Promise<userData[]> {
     const id: string = uuid();
-    this.logger.log('User list api called',id,'users.controler.ts','findAll');
+    this.logger.log('User list api called',id,'users.controler.ts','GET','/users','findAll');
     const userList = await this.userService.findAll();
     return sendResponse(
       res,
