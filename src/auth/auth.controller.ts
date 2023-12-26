@@ -8,12 +8,14 @@ import {
   UseFilters,
   UseGuards
 } from "@nestjs/common";
+import { LoggerService } from '../common/service/logger.service';
 import { SignInDto } from "./dto/signIn.dto";
-import { Response, Request } from "express";
+import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { Public } from "./decorators/public.decorator";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
 import { RtGuard } from "../common/guards/rt.guard";
+import { v4 as uuid } from 'uuid';
 import {
   sendResponse,
   loginSuccessResponse,
@@ -28,7 +30,8 @@ import { GetCurrentUser, GetCurrentUserId } from "../common/decorators";
 @Controller("auth")
 export class AuthController {
   [x: string]: any;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private readonly logger: LoggerService) {}
 
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
@@ -37,11 +40,12 @@ export class AuthController {
   @UseFilters(new HttpExceptionFilter())
   @Post("login")
   async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
+    const id: string = uuid();
+    this.logger.log('User login api called',id,'auth.controler.ts','POST','/login','signIn');
     const token = await this.authService.signIn(
       signInDto.email,
       signInDto.password
     );
-  
 
     res.cookie("access_token", token.access_token, {
       httpOnly: false,
@@ -83,6 +87,8 @@ export class AuthController {
     @Res() res: Response
   ) {
     const tokens = await this.authService.getTokens(payload);
+    const id: string = uuid();
+    this.logger.log('User refresh api called',id,'auth.controler.ts','POST','/refresh','refreshTokens');
     res.cookie("access_token", tokens.access_token, {
       httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
