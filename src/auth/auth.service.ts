@@ -1,18 +1,23 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { LoggerService } from '../common/service/logger.service';
 import { UserService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { jwtConstants } from '../auth/constants';
-
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private readonly logger: LoggerService
   ) {}
 
   async signIn(email: string, pass: string) {
+    
+    const id: string = uuid();
+    this.logger.log('auth service api called',id,'auth.service.ts','','','signIn-service');
     const user = await this.usersService.findOneUser(email);
     const match = await bcrypt.compare(pass, user?.password);
 
@@ -45,7 +50,7 @@ export class AuthService {
   }
   
   async getTokens(user: any) {
-    console.log(user)
+
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         {

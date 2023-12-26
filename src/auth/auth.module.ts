@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { LoggerService } from '../common/service/logger.service';
 import { UserModule } from '../users/users.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
@@ -22,7 +23,8 @@ import { AuthService } from './auth.service';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }
+    },
+    LoggerService
   ],
   controllers: [AuthController],
   exports: [AuthService],

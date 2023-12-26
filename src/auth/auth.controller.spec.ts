@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { LoggerService } from '../common/service/logger.service';
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { MockResponse, createResponse } from "node-mocks-http";
@@ -26,7 +27,13 @@ describe("Auth Controller", () => {
             }),
           },
         },
-        JwtService 
+        JwtService,
+        {
+          provide: LoggerService,
+          useValue: {
+            log: jest.fn(),
+          },
+        }
       ],
     }).compile();
 
