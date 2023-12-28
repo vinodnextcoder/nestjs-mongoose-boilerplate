@@ -7,6 +7,6 @@ export class HelloController {
     @Public()
     @Get()
     helloWorld(): string {
-      return 'Hello world';
+      return 'Hello World!';
     }
 }
