@@ -5,6 +5,8 @@ import { AuthModule }  from './auth/auth.module'
 import { LoggerService } from './common/service/logger.service';
 import { LoggerMiddleware } from './common/service/loggermiddleware.service';
 import { DatabaseModule } from './config/database.module';
+import { HelloController } from './hello/hello.controller';
+import { helloModule } from './hello/hello.module';
 console.log(`${process.cwd()}/.env.${process.env.NODE_ENV}`)
 
 @Module({
@@ -16,11 +18,12 @@ console.log(`${process.cwd()}/.env.${process.env.NODE_ENV}`)
     // MongooseModule.forRoot(process.env.MONGODB_URI),
     DatabaseModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    helloModule
   ],
   providers: [
     LoggerService
-  ],
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
