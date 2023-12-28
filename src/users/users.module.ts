@@ -4,7 +4,7 @@ import { UserController } from "./users.controller";
 import { UserService } from "./users.service";
 import { User, UserSchema } from "./schemas/user.schema";
 import { RefresToken, RefresTokenSchema } from "./schemas/refreshtoken.schema";
-import { LoggerService } from "src/common/service/logger.service";
+import { LoggerService } from "../common/service/logger.service";
 
 @Module({
   imports: [
