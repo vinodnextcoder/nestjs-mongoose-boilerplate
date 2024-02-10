@@ -15,7 +15,7 @@ This repository contains a NestJS application showcasing JWT (JSON Web Token) au
 Ensure you have the following installed before running the application:
 
 - Node.js (>= 12.x)
-- npm 
+- npm
 - MongoDB (or any preferred database)
 
 ## Installation
@@ -30,6 +30,7 @@ Ensure you have the following installed before running the application:
 
    ```bash
    cd nestjs-mongoose-jwt
+   npm i -g cross-env
    npm install
    ```
 
@@ -41,9 +42,16 @@ Ensure you have the following installed before running the application:
 
 - Update the `JWT_KEY` and other necessary environment variables in the `.env` file.
 
+## Mongodb url update as per your config in env file
+
+- MONGODB_URI=mongodb://localhost:27017/test
+or
+- MONGODB_URI=mongodb://0.0.0.0:27017/test
+
 ## Usage
 
 1. **Start the application:**
+
 ```bash
 # development
 $ npm run start
@@ -79,13 +87,11 @@ Once the application is running you can visit [http://localhost:3000/api](http:/
 - `POST /auth/login`: Log in and receive a JWT token.
 - `GET /v1/users`: Access a protected route (requires authentication).
 
-
 ## Author
 
 👤 **Vinod**
 
 - Github: [@vinodnextcoder](https://github.com/vinodnextcoder)
-
 
 ## Contributing
 
