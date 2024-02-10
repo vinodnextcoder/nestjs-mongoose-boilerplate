@@ -45,7 +45,7 @@ Ensure you have the following installed before running the application:
 ## Mongodb url update as per your config in env file
 
 - MONGODB_URI=mongodb://localhost:27017/test
-or
+  # or
 - MONGODB_URI=mongodb://0.0.0.0:27017/test
 
 ## Usage
