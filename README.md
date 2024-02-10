@@ -97,6 +97,9 @@ Once the application is running you can visit [http://localhost:3000/api](http:/
 
 Contributions are welcome! If you find any issues or want to enhance the application, feel free to submit a pull request.
 
+husky added you skip in commint using below command
+git commit -m "commit msg" --no-verify
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
