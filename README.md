@@ -29,7 +29,7 @@ Ensure you have the following installed before running the application:
 2. **Install dependencies:**
 
    ```bash
-   cd nestjs-mongoose-jwt
+   cd nestjs-mongoose-boilerplat
    npm i -g cross-env
    npm install
    ```
