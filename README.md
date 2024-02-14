@@ -23,7 +23,7 @@ Ensure you have the following installed before running the application:
 1. **Clone the repository:**
 
    ```bash
-   https://github.com/vinodnextcoder/nestjs-mongoose-jwt.git
+   https://github.com/vinodnextcoder/nestjs-mongoose-boilerplate.git
    ```
 
 2. **Install dependencies:**
